@@ -1,6 +1,7 @@
 package pages;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 import com.codeborne.selenide.SelenideElement;
 import utils.Waiters;
@@ -14,6 +15,22 @@ public class GmailInboxPage extends BasePage{
 
   private final SelenideElement googleWorkspaceLogo =
       $("div.gb_Dc > div > a > img");
+  private final SelenideElement composeButton =
+      $("div.T-I.T-I-KE.L3");
+  private final SelenideElement closeMailFrameButtonIcon =
+      $("#\\:us");
+  private final SelenideElement draftListButton =
+      $x("//*[@aria-label='Drafts']");
+
+  private final SelenideElement recipientsField =
+      $x("//*[@aria-haspopup='listbox']");
+  private final SelenideElement subjectField =
+      $x("//*[@placeholder='Subject']");
+  private final SelenideElement messageField =
+      $x("//*[@aria-label='Message Body']");
+
+  private final SelenideElement firstDraft =
+      $x("(//table[@aria-readonly='true']/tbody/tr)[2]");
 
   @Override
   public boolean isPageLoaded() {
@@ -21,4 +38,63 @@ public class GmailInboxPage extends BasePage{
     return googleWorkspaceLogo.isDisplayed();
   }
 
+  //Actions to click on elements
+  public GmailInboxPage clickOnComposeButton() {
+    Waiters.waitForClickable(composeButton, WAIT_SHORT);
+    composeButton.click();
+    return this;
+  }
+
+  public GmailInboxPage clickOnCloseMailFrameButtonIcon() {
+    Waiters.waitForClickable(closeMailFrameButtonIcon, WAIT_SHORT);
+    closeMailFrameButtonIcon.click();
+    return this;
+  }
+
+  public GmailInboxPage clickOnDraftListButton() {
+    Waiters.waitForClickable(draftListButton, WAIT_SHORT);
+    draftListButton.click();
+    return this;
+  }
+
+  public GmailInboxPage clickOnFirstDraft() {
+    Waiters.waitForClickable(firstDraft, WAIT_SHORT);
+    firstDraft.click();
+    return this;
+  }
+
+  // Actions to fill in the fields
+  public GmailInboxPage setRecipientsField(String destination) {
+    Waiters.waitForVisibility(recipientsField, WAIT_SHORT);
+    recipientsField.setValue(destination);
+    return this;
+  }
+
+  public GmailInboxPage setSubjectField(String subject) {
+    Waiters.waitForVisibility(subjectField, WAIT_SHORT);
+    subjectField.setValue(subject);
+    return this;
+  }
+
+  public GmailInboxPage setMessageField(String message) {
+    Waiters.waitForVisibility(messageField, WAIT_SHORT);
+    messageField.setValue(message);
+    return this;
+  }
+
+  // Actions to get elements
+  public String getRecipientsFieldValue() {
+    Waiters.waitForVisibility(recipientsField, WAIT_SHORT);
+    return recipientsField.getValue();
+  }
+
+  public String getSubjectFieldValue() {
+    Waiters.waitForVisibility(subjectField, WAIT_SHORT);
+    return subjectField.getValue();
+  }
+
+  public String getMessageFieldValue() {
+    Waiters.waitForVisibility(messageField, WAIT_SHORT);
+    return messageField.getValue();
+  }
 }
