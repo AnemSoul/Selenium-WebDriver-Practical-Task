@@ -10,13 +10,11 @@ public abstract class BaseTest {
 
   @BeforeClass
   public void setUp() {
-    // Инициализируем WebDriver через Selenide
     DriverManager.getInstance();
   }
 
   @AfterClass
   public void tearDown() {
-    // Закрываем браузер через встроенный метод Selenide
     closeWebDriver();
   }
 }
