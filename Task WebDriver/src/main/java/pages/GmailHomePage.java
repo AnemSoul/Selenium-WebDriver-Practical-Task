@@ -21,8 +21,6 @@ public class GmailHomePage extends BasePage {
   private final SelenideElement signInButton =
         $x("(//span[text()='Sign in'])[2]");
 
-
-
   @Override
   public boolean isPageLoaded() {
     Waiters.waitForVisibility(googleWorkspaceLogo, WAIT_MEDIUM);

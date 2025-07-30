@@ -11,7 +11,6 @@ public class GmailInboxPage extends BasePage{
 
   private static final long WAIT_SHORT = 3;
   private static final long WAIT_MEDIUM = 5;
-  private static final long WAIT_LONG = 10;
 
   private final SelenideElement googleWorkspaceLogo =
       $("div.gb_Dc > div > a > img");

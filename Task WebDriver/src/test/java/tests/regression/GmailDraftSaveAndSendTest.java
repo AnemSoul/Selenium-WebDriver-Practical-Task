@@ -1,4 +1,4 @@
-package tests;
+package tests.regression;
 
 import static utils.SigInManager.sigInUsSimpleUser;
 import static utils.TextGenerator.generateRandomText;
@@ -7,8 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.GmailInboxPage;
+import tests.BaseTest;
 
-public class GmailDraftSaveAndSendTest extends BaseTest{
+public class GmailDraftSaveAndSendTest extends BaseTest {
   private static final String EMAIL = "testuser001gaa@gmail.com";
   private static final String SUBJECT = generateRandomText(10);
   private static final String MESSAGE = generateRandomText(50);
@@ -58,5 +59,4 @@ public class GmailDraftSaveAndSendTest extends BaseTest{
         "Message does not match");
     softAssert.assertAll();
   }
-
 }

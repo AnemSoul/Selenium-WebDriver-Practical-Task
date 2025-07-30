@@ -7,22 +7,19 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 
 public class DriverManager {
-  private static DriverManager instance;
-
-  // Приватный конструктор для реализации Singleton
   private DriverManager() {
-    // Устанавливаем общие конфигурации
-    Configuration.startMaximized = true; // Браузер будет запускаться в полноэкранном режиме
-    Configuration.timeout = 10000; // Тайм-аут ожидания элементов (в миллисекундах)
-    Configuration.pageLoadTimeout = 30000; // Тайм-аут загрузки страницы
-    setDriver("chrome"); // Chrome как дефолтный браузер
+    Configuration.startMaximized = true;
+    Configuration.timeout = 10000;
+    Configuration.pageLoadTimeout = 30000;
+    setDriver("chrome");
   }
 
-  public static DriverManager getInstance() {
+  private static DriverManager instance;
+
+  public static void getInstance() {
     if (instance == null) {
       instance = new DriverManager();
     }
-    return instance;
   }
 
   public void setDriver(String browser) {
