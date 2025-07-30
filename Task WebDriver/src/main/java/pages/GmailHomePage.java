@@ -9,9 +9,9 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class GmailHomePage extends BasePage {
   public GmailHomePage() {}
+
   private static final long WAIT_SHORT = 3;
   private static final long WAIT_MEDIUM = 5;
-  private static final long WAIT_LONG = 10;
 
   private static final String PAGE_URL = "https://workspace.google.com/intl/en/gmail/";
 

@@ -23,6 +23,12 @@ public class GmailInboxPage extends BasePage{
       $x("//*[contains(@aria-label, 'Drafts')]");
   private final SelenideElement draftListButtonAfterClick =
       $x("//span/*[@tabindex='0'][text()='Drafts']");
+  private final SelenideElement sentListButton =
+      $x("//*[contains(@aria-label, 'Sent')]");
+  private final SelenideElement sentListButtonAfterClick =
+      $x("//span/*[@tabindex='0'][text()='Sent']");
+  private final SelenideElement sendButton =
+      $x("//div[@role='button'][text()='Send']");
 
   private final SelenideElement recipientsField =
       $x("//*[@aria-haspopup='listbox']");
@@ -33,8 +39,15 @@ public class GmailInboxPage extends BasePage{
   private final SelenideElement messageField =
       $x("(//*[@aria-label='Message Body'])[2]");
 
-  private final SelenideElement firstDraft =
+  private final SelenideElement firstMessage =
       $x("//div[@role='main']//tbody/tr[@role='row']");
+
+  private final SelenideElement recipientInTheSentMassage =
+      $("span > span.go");
+  private final SelenideElement subjectInTheSentMassage =
+      $("div.ha > h2");
+  private final SelenideElement messageInTheSentMassage =
+      $x("//*[@dir='ltr'][text()]");
 
   @Override
   public boolean isPageLoaded() {
@@ -62,9 +75,22 @@ public class GmailInboxPage extends BasePage{
     return this;
   }
 
-  public GmailInboxPage clickOnFirstDraft() {
-    Waiters.waitForClickable(firstDraft, WAIT_SHORT);
-    firstDraft.click();
+  public GmailInboxPage clickOnSentListButton() {
+    Waiters.waitForClickable(sentListButton, WAIT_SHORT);
+    sentListButton.click();
+    Waiters.waitForVisibility(sentListButtonAfterClick, WAIT_SHORT);
+    return this;
+  }
+
+  public GmailInboxPage clickOnFirstMassageOnList() {
+    Waiters.waitForClickable(firstMessage, WAIT_SHORT);
+    firstMessage.click();
+    return this;
+  }
+
+  public GmailInboxPage clickOnSendButton() {
+    Waiters.waitForClickable(sendButton, WAIT_SHORT);
+    sendButton.click();
     return this;
   }
 
@@ -101,5 +127,21 @@ public class GmailInboxPage extends BasePage{
   public String getMessageFieldText() {
     Waiters.waitForVisibility(messageField, WAIT_SHORT);
     return messageField.getText();
+  }
+
+  public String getRecipientInTheSentMassageText() {
+    Waiters.waitForVisibility(recipientInTheSentMassage, WAIT_SHORT);
+    String text = recipientInTheSentMassage.getText();
+    return text.replaceAll("^<|>$", "");
+  }
+
+  public String getSubjectInTheSentMassageText() {
+    Waiters.waitForVisibility(subjectInTheSentMassage, WAIT_SHORT);
+    return subjectInTheSentMassage.getText();
+  }
+
+  public String getMessageInTheSentMassageText() {
+    Waiters.waitForVisibility(messageInTheSentMassage, WAIT_SHORT);
+    return messageInTheSentMassage.getText();
   }
 }

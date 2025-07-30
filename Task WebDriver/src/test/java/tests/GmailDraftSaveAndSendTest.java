@@ -29,7 +29,7 @@ public class GmailDraftSaveAndSendTest extends BaseTest{
 
   @Test(priority = 1)
   public void testDraftSave() {
-    gmailInboxPage.clickOnFirstDraft();
+    gmailInboxPage.clickOnFirstMassageOnList();
     SoftAssert softAssert = new SoftAssert();
     softAssert.assertEquals(
         gmailInboxPage.getRecipientsFieldValue(), EMAIL,
@@ -39,6 +39,22 @@ public class GmailDraftSaveAndSendTest extends BaseTest{
         "Subject does not match");
     softAssert.assertEquals(
         gmailInboxPage.getMessageFieldText(), MESSAGE,
+        "Message does not match");
+    softAssert.assertAll();
+  }
+
+  @Test(priority = 2)
+  public void testDraftSend() {
+    gmailInboxPage.clickOnSendButton().clickOnSentListButton().clickOnFirstMassageOnList();
+    SoftAssert softAssert = new SoftAssert();
+    softAssert.assertEquals(
+        gmailInboxPage.getRecipientInTheSentMassageText(), EMAIL,
+        "Recipient email does not match");
+    softAssert.assertEquals(
+        gmailInboxPage.getSubjectInTheSentMassageText(), SUBJECT,
+        "Subject does not match");
+    softAssert.assertEquals(
+        gmailInboxPage.getMessageInTheSentMassageText(), MESSAGE,
         "Message does not match");
     softAssert.assertAll();
   }
