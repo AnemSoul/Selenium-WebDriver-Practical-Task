@@ -18,19 +18,23 @@ public class GmailInboxPage extends BasePage{
   private final SelenideElement composeButton =
       $("div.T-I.T-I-KE.L3");
   private final SelenideElement closeMailFrameButtonIcon =
-      $("#\\:us");
+      $x("//*[@alt='Close']");
   private final SelenideElement draftListButton =
-      $x("//*[@aria-label='Drafts']");
+      $x("//*[contains(@aria-label, 'Drafts')]");
+  private final SelenideElement draftListButtonAfterClick =
+      $x("//span/*[@tabindex='0'][text()='Drafts']");
 
   private final SelenideElement recipientsField =
       $x("//*[@aria-haspopup='listbox']");
+  private final SelenideElement recipientsFieldFilling =
+      $x("//form[@enctype='multipart/form-data']//span[@email]");
   private final SelenideElement subjectField =
       $x("//*[@placeholder='Subject']");
   private final SelenideElement messageField =
-      $x("//*[@aria-label='Message Body']");
+      $x("(//*[@aria-label='Message Body'])[2]");
 
   private final SelenideElement firstDraft =
-      $x("(//table[@aria-readonly='true']/tbody/tr)[2]");
+      $x("//div[@role='main']//tbody/tr[@role='row']");
 
   @Override
   public boolean isPageLoaded() {
@@ -54,6 +58,7 @@ public class GmailInboxPage extends BasePage{
   public GmailInboxPage clickOnDraftListButton() {
     Waiters.waitForClickable(draftListButton, WAIT_SHORT);
     draftListButton.click();
+    Waiters.waitForVisibility(draftListButtonAfterClick, WAIT_SHORT);
     return this;
   }
 
@@ -82,10 +87,10 @@ public class GmailInboxPage extends BasePage{
     return this;
   }
 
-  // Actions to get elements
+  // Actions to get value of elements
   public String getRecipientsFieldValue() {
-    Waiters.waitForVisibility(recipientsField, WAIT_SHORT);
-    return recipientsField.getValue();
+    Waiters.waitForVisibility(recipientsFieldFilling, WAIT_SHORT);
+    return recipientsFieldFilling.getAttribute("email");
   }
 
   public String getSubjectFieldValue() {
@@ -93,8 +98,8 @@ public class GmailInboxPage extends BasePage{
     return subjectField.getValue();
   }
 
-  public String getMessageFieldValue() {
+  public String getMessageFieldText() {
     Waiters.waitForVisibility(messageField, WAIT_SHORT);
-    return messageField.getValue();
+    return messageField.getText();
   }
 }

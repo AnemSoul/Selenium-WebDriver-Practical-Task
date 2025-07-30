@@ -7,7 +7,9 @@ import org.testng.annotations.Test;
 import pages.GmailInboxPage;
 
 public class GmailSigInTest {
-  GmailInboxPage gmailInboxPage;
+
+  private GmailInboxPage gmailInboxPage;
+
   @Test
   public void testGmailSignIn() {
     gmailInboxPage = sigInUsSimpleUser();
