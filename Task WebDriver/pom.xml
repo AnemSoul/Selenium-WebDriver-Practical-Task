@@ -7,22 +7,24 @@
   <name>Archetype - task</name>
   <url>http://maven.apache.org</url>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
   <dependencies>
-    <!-- Selenium -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <version>3.141.59</version>
     </dependency>
 
-    <!-- Selenide -->
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
       <version>5.24.3</version>
     </dependency>
 
-    <!-- TestNG -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -30,7 +32,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Logging (optional, but recommended) -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
@@ -41,8 +42,12 @@
       <artifactId>log4j-api</artifactId>
       <version>2.20.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.20.0</version>
+    </dependency>
 
-    <!-- WebDriver Manager -->
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
@@ -52,22 +57,75 @@
     <dependency>
       <groupId>org.apache.httpcomponents.client5</groupId>
       <artifactId>httpclient5</artifactId>
-      <version>5.2</version> <!-- Совместимо с WebDriverManager 5.x -->
+      <version>5.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents.core5</groupId>
       <artifactId>httpcore5</artifactId>
       <version>5.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.9.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <!--    <dependency>-->
+<!--      <groupId>org.testng</groupId>-->
+<!--      <artifactId>testng</artifactId>-->
+<!--      <version>7.9.0</version>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
   </dependencies>
+
+  <profiles>
+    <!-- Smoke Test Runner -->
+    <profile>
+      <id>smoke-tests</id>
+      <properties>
+        <testng.suite>src/test/resources/testng-smoke.xml</testng.suite>
+        <env>dev</env>
+      </properties>
+    </profile>
+
+    <!-- Regression Test Runner -->
+    <profile>
+      <id>regression-tests</id>
+      <properties>
+        <testng.suite>src/test/resources/testng-regression.xml</testng.suite>
+        <env>prod</env>
+      </properties>
+    </profile>
+
+    <!-- Full Test Runner -->
+    <profile>
+      <id>all-tests</id>
+      <properties>
+        <testng.suite>src/test/resources/testng-all.xml</testng.suite>
+        <env>dev</env>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0</version>
         <configuration>
-          <source>9</source>
-          <target>9</target>
+          <suiteXmlFiles>
+            <!--suppress UnresolvedMavenProperty -->
+            <xmlFile>${basedir}/src/test/resources/testng-${xml}.xml</xmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <release>24</release>
         </configuration>
       </plugin>
     </plugins>

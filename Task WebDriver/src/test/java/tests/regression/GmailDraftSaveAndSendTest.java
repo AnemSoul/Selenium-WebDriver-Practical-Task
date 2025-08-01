@@ -1,6 +1,6 @@
 package tests.regression;
 
-import static utils.SigInManager.sigInUsSimpleUser;
+import static utils.SigInManager.sigInAsSimpleUser;
 import static utils.TextGenerator.generateRandomText;
 
 import org.testng.annotations.BeforeClass;
@@ -19,7 +19,7 @@ public class GmailDraftSaveAndSendTest extends BaseTest {
   @BeforeClass
   public void setUp() {
     super.setUp();
-    gmailInboxPage = sigInUsSimpleUser()
+    gmailInboxPage = sigInAsSimpleUser()
         .clickOnComposeButton()
         .setRecipientsField(EMAIL)
         .setSubjectField(SUBJECT)

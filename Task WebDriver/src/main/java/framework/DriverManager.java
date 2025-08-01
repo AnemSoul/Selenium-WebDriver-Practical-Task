@@ -1,16 +1,19 @@
 package framework;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeOptions;
+import listeners.CustomSelenideListener;
 
 public class DriverManager {
   private DriverManager() {
     Configuration.startMaximized = true;
     Configuration.timeout = 10000;
     Configuration.pageLoadTimeout = 30000;
+    SelenideLogger.addListener("CustomLogger", new CustomSelenideListener());
     setDriver("chrome");
   }
 
@@ -20,6 +23,8 @@ public class DriverManager {
     if (instance == null) {
       instance = new DriverManager();
     }
+    String browser = System.getProperty("browser", "chrome");
+    instance.setDriver(browser);
   }
 
   public void setDriver(String browser) {
