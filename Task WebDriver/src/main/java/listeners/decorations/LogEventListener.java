@@ -1,4 +1,4 @@
-package listeners;
+package listeners.decorations;
 
 import com.codeborne.selenide.logevents.LogEvent;
 

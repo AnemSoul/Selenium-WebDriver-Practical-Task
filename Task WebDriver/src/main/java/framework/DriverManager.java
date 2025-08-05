@@ -1,14 +1,15 @@
 package framework;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.LogEventListener;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import framework.configure.ChromeDriverSetup;
 import framework.configure.DriverSetup;
 import framework.configure.EdgeDriverSetup;
 import framework.configure.FirefoxDriverSetup;
 import listeners.CustomSelenideListener;
-import listeners.HighlightingDecorator;
-import listeners.ScreenshotDecorator;
+import listeners.decorations.HighlightingDecorator;
+import listeners.decorations.ScreenshotDecorator;
 
 public class DriverManager {
   private static volatile DriverManager instance;
@@ -48,7 +49,7 @@ public class DriverManager {
   private void initializeListeners() {
     CustomSelenideListener baseListener = new CustomSelenideListener();
 
-    com.codeborne.selenide.logevents.LogEventListener decoratedListener = new HighlightingDecorator(
+    LogEventListener decoratedListener = new HighlightingDecorator(
         new ScreenshotDecorator(baseListener)
     );
 

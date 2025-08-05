@@ -1,4 +1,4 @@
-package listeners;
+package listeners.decorations;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.LogEvent;
@@ -50,7 +50,6 @@ public class HighlightingDecorator implements LogEventListener {
 
   private WebElement resolveWebElement(String locator) {
     try {
-      // Универсальная обработка локатора
       if (locator.startsWith("By.xpath:")) {
         String xpath = locator.replace("By.xpath: ", "").trim();
         return Selenide.$x(xpath).toWebElement();

@@ -1,9 +1,7 @@
-package listeners;
+package listeners.decorations;
 
-import com.codeborne.selenide.Screenshots;
 import com.codeborne.selenide.logevents.LogEvent;
 import com.codeborne.selenide.logevents.LogEventListener;
-import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,19 +23,30 @@ public class ScreenshotDecorator implements LogEventListener {
   @Override
   public void afterEvent(LogEvent event) {
     wrappedListener.afterEvent(event);
+
     if ("FAIL".equalsIgnoreCase(String.valueOf(event.getStatus()))) {
-      takeScreenshot(event);
+      String testClassName = getTestClassName();
+      Path savedScreenshot = ScreenshotUtils.takeScreenshot(testClassName);
+      if (savedScreenshot != null) {
+        logger.error("Screenshot saved for failed event [{}]: {}",
+            testClassName, savedScreenshot);
+      }
     }
   }
 
-  private void takeScreenshot(LogEvent event) {
+  private String getTestClassName() {
     try {
-      Path screenshotPath = Objects.requireNonNull(Screenshots.takeScreenShotAsFile()).toPath();
-      logger.error("Screenshot saved for failed event [{}]: {}",
-          event.getSubject(), screenshotPath);
+      StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+      for (StackTraceElement element : stackTrace) {
+        if (element.getClassName().startsWith("tests.")) {
+          return element
+              .getClassName()
+              .substring(element.getClassName().lastIndexOf('.') + 1);
+        }
+      }
     } catch (Exception e) {
-      logger.error("Failed to capture screenshot for event [{}]: {}",
-          event.getSubject(), e.getMessage());
+      logger.error("Failed to detect test class name from stack trace: {}", e.getMessage());
     }
+    return "UnknownTestClass";
   }
 }
