@@ -1,17 +1,13 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import utils.Waiters;
 
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.open;
+import static utils.ElementActions.*;
 
 public class GmailHomePage extends BasePage {
   public GmailHomePage() {}
-
-  private static final long WAIT_SHORT = 3;
-  private static final long WAIT_MEDIUM = 5;
 
   private static final String PAGE_URL = "https://workspace.google.com/intl/en/gmail/";
 
@@ -23,20 +19,17 @@ public class GmailHomePage extends BasePage {
 
   @Override
   public boolean isPageLoaded() {
-    Waiters.waitForVisibility(googleWorkspaceLogo, WAIT_MEDIUM);
-    return googleWorkspaceLogo.isDisplayed();
+    return isVisible(googleWorkspaceLogo);
   }
 
   public GmailHomePage openPage() {
     open(PAGE_URL);
-    Selenide.sleep(WAIT_MEDIUM);
+    isPageLoaded();
     return new GmailHomePage();
   }
 
   public SigInPage clickSignInButton() {
-    Waiters.waitForClickable(signInButton, WAIT_SHORT);
-    signInButton.click();
-    Selenide.sleep(WAIT_MEDIUM);
+    click(signInButton);
     return new SigInPage();
   }
 }

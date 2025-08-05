@@ -2,15 +2,12 @@ package pages;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
+import static utils.ElementActions.*;
 
 import com.codeborne.selenide.SelenideElement;
-import utils.Waiters;
 
 public class GmailInboxPage extends BasePage{
   public GmailInboxPage() {}
-
-  private static final long WAIT_SHORT = 3;
-  private static final long WAIT_MEDIUM = 5;
 
   private final SelenideElement googleWorkspaceLogo =
       $("div.gb_Dc > div > a > img");
@@ -50,97 +47,81 @@ public class GmailInboxPage extends BasePage{
 
   @Override
   public boolean isPageLoaded() {
-    Waiters.waitForVisibility(googleWorkspaceLogo, WAIT_MEDIUM);
-    return googleWorkspaceLogo.isDisplayed();
+    return isVisible(googleWorkspaceLogo);
   }
 
   //Actions to click on elements
   public GmailInboxPage clickOnComposeButton() {
-    Waiters.waitForClickable(composeButton, WAIT_SHORT);
-    composeButton.click();
+    click(composeButton);
     return this;
   }
 
   public GmailInboxPage clickOnCloseMailFrameButtonIcon() {
-    Waiters.waitForClickable(closeMailFrameButtonIcon, WAIT_SHORT);
-    closeMailFrameButtonIcon.click();
+    click(closeMailFrameButtonIcon);
     return this;
   }
 
   public GmailInboxPage clickOnDraftListButton() {
-    Waiters.waitForClickable(draftListButton, WAIT_SHORT);
-    draftListButton.click();
-    Waiters.waitForVisibility(draftListButtonAfterClick, WAIT_SHORT);
+    click(draftListButton);
+    isVisible(draftListButtonAfterClick);
     return this;
   }
 
   public GmailInboxPage clickOnSentListButton() {
-    Waiters.waitForClickable(sentListButton, WAIT_SHORT);
-    sentListButton.click();
-    Waiters.waitForVisibility(sentListButtonAfterClick, WAIT_SHORT);
+    click(sentListButton);
+    isVisible(sentListButtonAfterClick);
     return this;
   }
 
   public GmailInboxPage clickOnFirstMassageOnList() {
-    Waiters.waitForClickable(firstMessage, WAIT_SHORT);
-    firstMessage.click();
+    click(firstMessage);
     return this;
   }
 
   public GmailInboxPage clickOnSendButton() {
-    Waiters.waitForClickable(sendButton, WAIT_SHORT);
-    sendButton.click();
+    click(sendButton);
     return this;
   }
 
   // Actions to fill in the fields
   public GmailInboxPage setRecipientsField(String destination) {
-    Waiters.waitForVisibility(recipientsField, WAIT_SHORT);
-    recipientsField.setValue(destination);
+    setTextValue(recipientsField, destination);
     return this;
   }
 
   public GmailInboxPage setSubjectField(String subject) {
-    Waiters.waitForVisibility(subjectField, WAIT_SHORT);
-    subjectField.setValue(subject);
+    setTextValue(subjectField, subject);
     return this;
   }
 
   public GmailInboxPage setMessageField(String message) {
-    Waiters.waitForVisibility(messageField, WAIT_SHORT);
-    messageField.setValue(message);
+    setTextValue(messageField, message);
     return this;
   }
 
   // Actions to get value of elements
   public String getRecipientsFieldValue() {
-    Waiters.waitForVisibility(recipientsFieldFilling, WAIT_SHORT);
-    return recipientsFieldFilling.getAttribute("email");
+    return getAttributeValue(recipientsFieldFilling, "email");
   }
 
   public String getSubjectFieldValue() {
-    Waiters.waitForVisibility(subjectField, WAIT_SHORT);
-    return subjectField.getValue();
+    return getValueOfElement(subjectField);
   }
 
   public String getMessageFieldText() {
-    Waiters.waitForVisibility(messageField, WAIT_SHORT);
-    return messageField.getText();
+    return getTextValue(messageField);
   }
 
   public String getRecipientInTheSentMassageText() {
-    Waiters.waitForVisibility(recipientInTheSentMassage, WAIT_SHORT);
-    String text = recipientInTheSentMassage.getText();
+    String text = getTextValue(recipientInTheSentMassage);
     return text.replaceAll("^<|>$", "");
   }
 
   public String getSubjectInTheSentMassageText() {
-    Waiters.waitForVisibility(subjectInTheSentMassage, WAIT_SHORT);
-    return subjectInTheSentMassage.getText();
+    return getTextValue(subjectInTheSentMassage);
   }
 
   public String getMessageInTheSentMassageText() {
-    Waiters.waitForVisibility(messageInTheSentMassage, WAIT_SHORT);
-    return messageInTheSentMassage.getText();
+    return getTextValue(messageInTheSentMassage);
   }
 }
