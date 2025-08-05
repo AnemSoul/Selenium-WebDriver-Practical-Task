@@ -3,6 +3,7 @@ package tests.regression;
 import static utils.SigInManager.sigInAsSimpleUser;
 import static utils.TextGenerator.generateRandomText;
 
+import framework.CredentialsManager;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -10,7 +11,7 @@ import pages.GmailInboxPage;
 import tests.BaseTest;
 
 public class GmailDraftSaveAndSendTest extends BaseTest {
-  private static final String EMAIL = "testuser001gaa@gmail.com";
+  private static final String EMAIL = CredentialsManager.get("test.user_email");
   private static final String SUBJECT = generateRandomText(10);
   private static final String MESSAGE = generateRandomText(50);
 

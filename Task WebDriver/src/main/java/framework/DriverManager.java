@@ -2,53 +2,56 @@ package framework;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.edge.EdgeOptions;
+import framework.configure.ChromeDriverSetup;
+import framework.configure.DriverSetup;
+import framework.configure.EdgeDriverSetup;
+import framework.configure.FirefoxDriverSetup;
 import listeners.CustomSelenideListener;
+import listeners.HighlightingDecorator;
+import listeners.ScreenshotDecorator;
 
 public class DriverManager {
+  private static volatile DriverManager instance;
+
   private DriverManager() {
     Configuration.startMaximized = true;
     Configuration.timeout = 10000;
     Configuration.pageLoadTimeout = 30000;
-    SelenideLogger.addListener("CustomLogger", new CustomSelenideListener());
-    setDriver("chrome");
-  }
 
-  private static DriverManager instance;
+    initializeListeners();
 
-  public static void getInstance() {
-    if (instance == null) {
-      instance = new DriverManager();
-    }
     String browser = System.getProperty("browser", "chrome");
-    instance.setDriver(browser);
+    configureDriver(browser);
   }
 
-  public void setDriver(String browser) {
-    switch (browser.toLowerCase()) {
-      case "chrome":
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        Configuration.browser = "chrome";
-        Configuration.browserCapabilities = chromeOptions;
-        break;
-      case "firefox":
-        WebDriverManager.firefoxdriver().setup();
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-        Configuration.browser = "firefox";
-        Configuration.browserCapabilities = firefoxOptions;
-        break;
-      case "edge":
-        WebDriverManager.edgedriver().setup();
-        EdgeOptions edgeOptions = new EdgeOptions();
-        Configuration.browser = "edge";
-        Configuration.browserCapabilities = edgeOptions;
-        break;
-      default:
-        throw new IllegalArgumentException("Unsupported browser: " + browser);
+  public static DriverManager getInstance() {
+    if (instance == null) {
+      synchronized (DriverManager.class) {
+        if (instance == null) {
+          instance = new DriverManager();
+        }
+      }
     }
+    return instance;
+  }
+
+  private void configureDriver(String browser) {
+    DriverSetup driverSetup = switch (browser.toLowerCase()) {
+      case "chrome" -> new ChromeDriverSetup();
+      case "firefox" -> new FirefoxDriverSetup();
+      case "edge" -> new EdgeDriverSetup();
+      default -> throw new IllegalArgumentException("Unsupported browser: " + browser);
+    };
+    driverSetup.configure();
+  }
+
+  private void initializeListeners() {
+    CustomSelenideListener baseListener = new CustomSelenideListener();
+
+    com.codeborne.selenide.logevents.LogEventListener decoratedListener = new HighlightingDecorator(
+        new ScreenshotDecorator(baseListener)
+    );
+
+    SelenideLogger.addListener("CustomListener", decoratedListener);
   }
 }
