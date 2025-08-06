@@ -1,11 +1,11 @@
-package tests.smoke;
+package tests.ui_tests.smoke;
 
 import static org.testng.Assert.assertTrue;
 import static utils.SigInManager.sigInAsSimpleUser;
 
 import org.testng.annotations.Test;
 import pages.GmailInboxPage;
-import tests.BaseTest;
+import tests.ui_tests.BaseTest;
 
 public class GmailSigInTest extends BaseTest {
 

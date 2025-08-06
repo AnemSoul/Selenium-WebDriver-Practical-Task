@@ -2,8 +2,8 @@
 <suite name="Full Test Suite" parallel="false">
   <test name="All Tests">
     <packages>
-      <package name="tests.smoke"/>
-      <package name="tests.regression"/>
+      <package name="tests.ui_tests.smoke"/>
+      <package name="tests.ui_tests.regression"/>
     </packages>
   </test>
 </suite>

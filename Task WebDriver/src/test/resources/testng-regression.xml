@@ -2,7 +2,7 @@
 <suite name="Regression Test Suite" parallel="false">
   <test name="Regression Tests">
     <packages>
-      <package name="tests.regression"/>
+      <package name="tests.ui_tests.regression"/>
     </packages>
   </test>
 </suite>

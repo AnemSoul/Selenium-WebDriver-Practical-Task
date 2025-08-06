@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ParallelAPITestingSuite" parallel="classes" thread-count="3">
+  <test name="API Tests">
+    <packages>
+      <package name="tests.api_tests"/>
+    </packages>
+  </test>
+</suite>

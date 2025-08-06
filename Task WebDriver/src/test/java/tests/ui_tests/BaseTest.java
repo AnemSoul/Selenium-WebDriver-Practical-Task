@@ -1,4 +1,4 @@
-package tests;
+package tests.ui_tests;
 
 import framework.DriverManager;
 import org.testng.annotations.AfterClass;

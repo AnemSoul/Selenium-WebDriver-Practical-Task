@@ -1,4 +1,4 @@
-package tests.regression;
+package tests.ui_tests.regression;
 
 import static utils.SigInManager.sigInAsSimpleUser;
 import static utils.TextGenerator.generateRandomText;
@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.GmailInboxPage;
-import tests.BaseTest;
+import tests.ui_tests.BaseTest;
 
 public class GmailDraftSaveAndSendTest extends BaseTest {
   private static final String EMAIL = CredentialsManager.get("test.user_email");
@@ -45,7 +45,7 @@ public class GmailDraftSaveAndSendTest extends BaseTest {
     softAssert.assertAll();
   }
 
-  @Test(priority = 2)
+  @Test(priority = 2, dependsOnMethods = "testDraftSave")
   public void testDraftSend() {
     gmailInboxPage.clickOnSendButton().clickOnSentListButton().clickOnFirstMassageOnList();
     SoftAssert softAssert = new SoftAssert();

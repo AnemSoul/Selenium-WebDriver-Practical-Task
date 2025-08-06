@@ -2,7 +2,7 @@
 <suite name="Smoke Test Suite" parallel="false">
   <test name="Smoke Tests">
     <packages>
-      <package name="tests.smoke"/>
+      <package name="tests.ui_tests.smoke"/>
     </packages>
   </test>
 </suite>
