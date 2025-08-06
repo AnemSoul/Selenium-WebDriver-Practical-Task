@@ -25,7 +25,7 @@ public class DriverManager {
     configureDriver(browser);
   }
 
-  public static DriverManager getInstance() {
+  public static void getInstance() {
     if (instance == null) {
       synchronized (DriverManager.class) {
         if (instance == null) {
@@ -33,7 +33,6 @@ public class DriverManager {
         }
       }
     }
-    return instance;
   }
 
   private void configureDriver(String browser) {
