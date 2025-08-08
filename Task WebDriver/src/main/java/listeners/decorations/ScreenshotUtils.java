@@ -1,6 +1,7 @@
 package listeners.decorations;
 
 import com.codeborne.selenide.Screenshots;
+import io.qameta.allure.Allure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,5 +35,17 @@ public class ScreenshotUtils {
           testName, e.getMessage());
     }
     return null;
+  }
+
+  public static Path takeScreenshotAndAttach(String testName, String stepDescription) {
+    Path screenshotPath = takeScreenshot(testName);
+    if (screenshotPath != null) {
+      try {
+        Allure.addAttachment(stepDescription, Files.newInputStream(screenshotPath));
+      } catch (Exception e) {
+        logger.error("Failed to attach screenshot to Allure: {}", e.getMessage());
+      }
+    }
+    return screenshotPath;
   }
 }
