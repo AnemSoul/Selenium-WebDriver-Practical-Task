@@ -14,7 +14,10 @@ public class CustomSelenideListener implements LogEventListener {
   @Override
   public void beforeEvent(LogEvent event) {
     logger.info("ACTION STARTED: [{}] - {}", event.getSubject(), event.getElement());
-    Allure.step("Starting action: " + event.getSubject() + "with element: " + event.getElement());
+    Allure.step("Starting action: " +
+        event.getSubject() +
+        "with element: " +
+        event.getElement());
   }
 
   @Override
@@ -23,9 +26,11 @@ public class CustomSelenideListener implements LogEventListener {
         event.getSubject(), event.getStatus(), event.getElement());
 
     if ("FAIL".equalsIgnoreCase(event.getStatus().name())) {
-      // Скриншот при неудачном шаге
       String testName = getTestName();
-      takeScreenshotAndAttach(testName, "Failed action: " + event.getSubject() + " with element: " + event.getElement());
+      takeScreenshotAndAttach(testName, "Failed action: " +
+          event.getSubject() +
+          " with element: " +
+          event.getElement());
     }
 
     Allure.step("Finished action: " + event.getSubject() + " (" + event.getStatus() + ")");

@@ -22,7 +22,6 @@ public class AllureTestListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-    // Событие перед тестом (необязательно)
   }
 
   @Override
@@ -32,11 +31,9 @@ public class AllureTestListener implements ITestListener {
 
   @Override
   public void onStart(ITestContext context) {
-    // Событие перед запуском набора тестов (необязательно)
   }
 
   @Override
   public void onFinish(ITestContext context) {
-    // Событие после завершения набора тестов (необязательно)
   }
 }
