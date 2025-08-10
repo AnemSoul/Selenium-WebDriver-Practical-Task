@@ -17,4 +17,14 @@ public class SigInManager {
         .setPasswordInputField(get("test.user_password"))
         .clickOnNextButtonAndGoToInbox();
   }
+
+  public static GmailInboxPage sigInAsUserWithCredentials(String email, String password) {
+    return gmailHomePage
+        .openPage()
+        .clickSignInButton()
+        .setEmailInputField(email)
+        .clickOnNextButton()
+        .setPasswordInputField(password)
+        .clickOnNextButtonAndGoToInbox();
+  }
 }

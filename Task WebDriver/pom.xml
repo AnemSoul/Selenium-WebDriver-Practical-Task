@@ -83,7 +83,40 @@
       <version>7.9.0</version>
       <scope>compile</scope>
     </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>7.27.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>7.27.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-cucumber6-jvm</artifactId>
+      <version>2.20.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>gherkin</artifactId>
+      <version>33.1.0</version>
+    </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>messages</artifactId>
+        <version>28.1.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <profiles>
     <!-- Smoke Test Runner -->
@@ -111,6 +144,24 @@
         <testng.suite>src/test/resources/testng-all.xml</testng.suite>
         <env>dev</env>
       </properties>
+    </profile>
+
+    <profile>
+      <id>cucumber-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+              <includes>
+                <include>**/CucumberTestRunner.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
